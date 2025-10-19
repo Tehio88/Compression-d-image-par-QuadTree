@@ -1,0 +1,25 @@
+# makeapp
+
+CC := gcc
+SRC := src/main.c
+OBJ := $(SRC:.c=.o)
+INC := include/
+LIB := lib/
+PFLAGS := -I$(INC) -I$(LIB)
+CFLAGS := -Wall -std=c17
+LFLAGS := -lm -Wl,-rpath,$(LIB) -L$(LIB) -lqtc
+EXEC := codec
+
+# Création de l'exécutable codec
+$(EXEC): $(OBJ)
+	$(CC) $(OBJ) $(LFLAGS) -o $(EXEC)
+
+# Compilation des fichiers objets
+%.o: %.c
+	$(CC) -c $(PFLAGS) $(CFLAGS) $< -o $@
+
+# Nettoyage
+.PHONY: clean
+
+clean:
+	rm -f *.o codec

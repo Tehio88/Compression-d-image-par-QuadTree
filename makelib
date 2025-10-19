@@ -1,0 +1,26 @@
+# makelib
+
+CC := gcc
+STD := -std=c17
+SRC := src/quadtree.c src/qtc.c src/bits.c src/main.c src/pgm.c
+OBJ := $(SRC:.c=.o)
+INC := include/
+LIB := lib/
+LIBRARY := libqtc.so
+
+PFLAGS := -I$(INC)
+CFLAGS := -Wall -fPIC
+LFLAGS := -shared
+
+# Création de la bibliothèque partagée
+$(LIBRARY): $(OBJ)
+	$(CC) $(LFLAGS) $(OBJ) -o $(LIB)$(LIBRARY)
+
+%.o: $(SRC)%.c
+	$(CC) -c $(STD) $(PFLAGS) $(CFLAGS) $< -o $@
+
+# Nettoyage
+.PHONY: clean
+
+clean:
+	rm -f $(OBJ) $(LIB)$(LIBRARY)
